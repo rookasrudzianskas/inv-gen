@@ -20,8 +20,13 @@ export const ClientGenerationSchema = z.object({
   recipientEmail: z.string().email({ message: "Invalid email address" }),
   recipientAddress: z.string().optional(),
   invoiceNumber: z.string().min(1, { message: "Invoice number is required" }),
-  amount: z.string().refine((val) => !isNaN(parseFloat(val)), {
-    message: "Amount must be a valid number"
-  }).transform((val) => parseFloat(val)),
+  amount: z.string(),
   description: z.string().optional(),
+});
+
+export const InvoiceInfoSchema = z.object({
+  paymentTerms: z.string().min(2, { message: "Payment terms are required" }),
+  taxRate: z.string(),
+  discount: z.string(),
+  additionalNotes: z.string().optional(),
 });
