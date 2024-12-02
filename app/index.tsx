@@ -1,25 +1,25 @@
 import { Stack, Link } from 'expo-router';
 import React, { useState } from 'react';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { View, Text, TextInput, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 
 import { Button } from '~/components/Button';
 import { Container } from '~/components/Container';
-import { ScreenContent } from '~/components/ScreenContent';
-import CustomTextInput from "~/components/custom-text-input";
+import CustomTextInput from '~/components/custom-text-input';
+
+interface FormData {
+  email: string;
+  invoiceNumber: string;
+  amount: string;
+  description: string;
+  [key: string]: any;
+}
 
 export default function InvoiceGenerationForm() {
-  const [clientName, setClientName] = useState('');
-  const [invoiceNumber, setInvoiceNumber] = useState('');
-  const [amount, setAmount] = useState('');
-  const [description, setDescription] = useState('');
+  const form = useForm();
 
-  const handleSubmit = () => {
-    console.log('Invoice Details:', {
-      clientName,
-      invoiceNumber,
-      amount,
-      description,
-    });
+  const onSubmit = (data: FormData) => {
+    console.log(data);
   };
 
   return (
@@ -28,63 +28,53 @@ export default function InvoiceGenerationForm() {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1">
-        <Container className="flex-1 bg-gray-100">
-          <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-20">
-            <View className="mb-4">
+        <FormProvider {...form}>
+          <Container className="flex-1 bg-gray-100">
+            <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-20">
               <CustomTextInput
                 label="Client Email"
                 placeholder="Enter client email"
-                value={clientName}
-                onChangeText={setClientName}
                 className=""
+                name="email"
               />
-            </View>
 
-            <View className="mb-4">
               <CustomTextInput
-                label="Enter invoice number"
-                placeholder="Enter invoice number"
-                value={invoiceNumber}
-                onChangeText={setInvoiceNumber}
+                label={'Invoice Number'}
+                placeholder={'Enter invoice number'}
                 className=""
-                keyboardType="numeric"
+                name="invoiceNumber"
               />
-            </View>
 
-            <View className="mb-4">
               <CustomTextInput
                 label="Enter invoice amount"
                 placeholder="Enter invoice amount"
-                value={amount}
-                onChangeText={setAmount}
+                name="amount"
                 className=""
                 keyboardType="numeric"
               />
-            </View>
 
-            <View className="mb-4">
               <CustomTextInput
                 label="Enter invoice description"
                 placeholder="Enter invoice description"
-                value={description}
-                onChangeText={setDescription}
+                name="description"
                 className="h-24 rounded-sm border border-gray-300 bg-white p-2"
                 multiline
+                rows={4}
               />
-            </View>
 
-            <View className="mt-4 flex-row justify-between">
-              <Link href="/" asChild>
-                <Button title="Cancel" className="rounded-md bg-gray-500 px-6 py-2 text-white" />
-              </Link>
-              <Button
-                title="Generate Invoice"
-                onPress={handleSubmit}
-                className="rounded-md bg-blue-600 px-6 py-2 text-white"
-              />
-            </View>
-          </ScrollView>
-        </Container>
+              <View className="mt-4 flex-row justify-between">
+                <Link href="/" asChild>
+                  <Button title="Cancel" className="rounded-md bg-gray-500 px-6 py-2 text-white" />
+                </Link>
+                <Button
+                  title="Generate Invoice"
+                  onPress={form.handleSubmit(onSubmit)}
+                  className="rounded-md bg-blue-600 px-6 py-2 text-white"
+                />
+              </View>
+            </ScrollView>
+          </Container>
+        </FormProvider>
       </KeyboardAvoidingView>
     </>
   );
