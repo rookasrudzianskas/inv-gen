@@ -1,5 +1,5 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Stack, Link, useRouter } from 'expo-router';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Stack, Link } from 'expo-router';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
@@ -8,25 +8,27 @@ import { z } from 'zod';
 import { Button } from '~/components/Button';
 import { Container } from '~/components/Container';
 import CustomTextInput from '~/components/custom-text-input';
-import { InvoiceGenerationSchema } from '~/schemas/invoice';
+import { ClientGenerationSchema } from '~/schemas/invoice';
 
-type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
+interface FormData {
+  recipientName: string;
+  recipientEmail: string;
+  recipientAddress: string;
+  invoiceNumber: string;
+  amount: string;
+  description: string;
+  [key: string]: any;
+}
+
+type RecipientInfo = z.infer<typeof ClientGenerationSchema>;
 
 export default function InvoiceGenerationForm() {
-  const router = useRouter();
-  const form = useForm<SenderInfo>({
-    resolver: zodResolver(InvoiceGenerationSchema),
-    defaultValues: {
-      email: 'byrookas@gmail.com',
-      invoiceNumber: 'INV-1234',
-      amount: '100',
-      description: 'This is a test invoice',
-    },
+  const form = useForm<RecipientInfo>({
+    resolver: yupResolver(ClientGenerationSchema),
   });
 
-  const onSubmit = (data: SenderInfo) => {
-    console.log('Form Data:', data);
-    router.push('/invoices/generate/recipient');
+  const onSubmit = (data: FormData) => {
+    console.log(data);
   };
 
   return (
@@ -39,28 +41,43 @@ export default function InvoiceGenerationForm() {
           <Container className="flex-1 bg-gray-100">
             <ScrollView keyboardShouldPersistTaps="handled" contentContainerClassName="pb-20">
               <CustomTextInput
-                label="Client Email"
-                placeholder="Enter client email"
-                name="email"
-                className="mb-4"
+                label="Recipient Name"
+                placeholder="Enter recipient name"
+                className=""
+                name="recipientName"
+              />
+              <CustomTextInput
+                label="Recipient Email"
+                placeholder="Enter recipient email"
+                className=""
+                name="recipientEmail"
+              />
+              <CustomTextInput
+                label="Recipient Address"
+                placeholder="Enter recipient address"
+                className="h-24 rounded-sm border border-gray-300 bg-white p-2"
+                name="recipientAddress"
+                multiline
+                rows={4}
               />
               <CustomTextInput
                 label="Invoice Number"
                 placeholder="Enter invoice number"
+                className=""
                 name="invoiceNumber"
-                className="mb-4"
               />
               <CustomTextInput
                 label="Enter invoice amount"
                 placeholder="Enter invoice amount"
                 name="amount"
-                className="mb-4"
+                className=""
+                keyboardType="numeric"
               />
               <CustomTextInput
                 label="Enter invoice description"
                 placeholder="Enter invoice description"
                 name="description"
-                className=""
+                className="h-24 rounded-sm border border-gray-300 bg-white p-2"
                 multiline
                 rows={4}
               />
