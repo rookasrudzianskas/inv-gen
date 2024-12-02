@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { z } from 'zod';
 import { InvoiceGenerationSchema, ClientGenerationSchema, InvoiceInfoSchema } from '~/schemas/invoice';
 
-// Define types based on Zod schemas
 type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 type RecipientInfo = z.infer<typeof ClientGenerationSchema>;
 type InvoiceInfo = z.infer<typeof InvoiceInfoSchema>;

@@ -79,7 +79,6 @@ export default function InvoiceInfoScreen() {
                 placeholder="Enter tax rate"
                 name="taxRate"
                 className="mb-4"
-                keyboardType="numeric"
               />
 
               <CustomTextInput
@@ -87,7 +86,6 @@ export default function InvoiceInfoScreen() {
                 placeholder="Enter discount percentage"
                 name="discount"
                 className="mb-4"
-                keyboardType="numeric"
               />
             </View>
 
