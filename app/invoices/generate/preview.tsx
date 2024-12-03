@@ -4,6 +4,7 @@ import { View, Text, ScrollView } from 'react-native';
 
 import { Button } from '~/components/Button';
 import { useInvoiceStore } from '~/stores/invoice-details';
+import { generateInvoicePDF } from '~/utils/pdf';
 
 export default function InvoicePreviewScreen() {
   const { senderInfo, recipientInfo, invoiceInfo, calculateTotal, isCompleteInvoice } =
@@ -18,6 +19,10 @@ export default function InvoicePreviewScreen() {
       </View>
     );
   }
+
+  const generatePDF = async () => {
+    await generateInvoicePDF();
+  };
 
   return (
     <View className="flex-1 bg-white">
@@ -91,6 +96,7 @@ export default function InvoicePreviewScreen() {
             title="Send Invoice"
             className="w-[45%] rounded-md bg-blue-600 px-6 py-2 text-white"
             disabled={!isCompleteInvoice()}
+            onPress={generatePDF}
           />
         </View>
       </ScrollView>

@@ -3725,7 +3725,7 @@ expo-constants@~17.0.0, expo-constants@~17.0.3:
     "@expo/config" "~10.0.4"
     "@expo/env" "~0.4.0"
 
-expo-file-system@~18.0.4:
+expo-file-system@^18.0.4, expo-file-system@~18.0.4:
   version "18.0.4"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-18.0.4.tgz#eecf8dc0b3b545e9ac5cd00352665afe2d57732f"
   integrity sha512-aAWEDwnu0XHOBYvQ9Q0+QIa+483vYJaC4IDsXyWQ73Rtsg273NZh5kYowY+cAocvoSmA99G6htrLBn11ax2bTQ==
@@ -3773,6 +3773,11 @@ expo-modules-core@2.0.6:
   dependencies:
     invariant "^2.2.4"
 
+expo-print@^14.0.2:
+  version "14.0.2"
+  resolved "https://registry.yarnpkg.com/expo-print/-/expo-print-14.0.2.tgz#df34a1fdf4e99d8ea7f7bf8b90a2c64984c06ced"
+  integrity sha512-GQDinoBeuSEZAjWYEfR/+PGhrjJvKYERjPPX1Tq/8fi1hMkqYXLnHD1+WCJqpLU5bGWPsqoZNTTZsTTv0ME1cw==
+
 expo-router@~4.0.6:
   version "4.0.9"
   resolved "https://registry.yarnpkg.com/expo-router/-/expo-router-4.0.9.tgz#37fe346761f2c7aa6dfc6d7625669d4aefda155d"
@@ -3791,6 +3796,11 @@ expo-router@~4.0.6:
     schema-utils "^4.0.1"
     semver "~7.6.3"
     server-only "^0.0.1"
+
+expo-sharing@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-13.0.0.tgz#fbc46f4afdaa265a2811fe88c2a589aae2d2de0f"
+  integrity sha512-b23ymicRmYn/Pjj05sl9tFZHN5cH9I1f0yiqY1Yk8Q3oCx0Aznri82DnTYA4T/J6D9vrkraX0wQ4jWVMOffmlg==
 
 expo-status-bar@~2.0.0:
   version "2.0.0"
