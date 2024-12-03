@@ -14,7 +14,9 @@ export const InvoiceGenerationSchema = z.object({
     .string()
     .min(10, 'Description must be at least 10 characters')
     .max(500, 'Description cannot exceed 500 characters'),
+  invoiceDate: z.date().refine(date => date <= new Date(), { message: 'Invoice date cannot be in the future' })
 });
+
 export const ClientGenerationSchema = z.object({
   recipientName: z.string().min(2, { message: "Recipient name must be at least 2 characters" }),
   recipientEmail: z.string().email({ message: "Invalid email address" }),

@@ -1,20 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Stack, Link, useRouter } from 'expo-router';
-import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { FormProvider, useForm, Controller } from 'react-hook-form';
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { z } from 'zod';
-
 import { Button } from '~/components/Button';
 import CustomTextInput from '~/components/custom-text-input';
 import { InvoiceGenerationSchema } from '~/schemas/invoice';
-import {useInvoiceStore} from "~/stores/invoice-details";
+import { useInvoiceStore } from "~/stores/invoice-details";
 
 type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 
 export default function InvoiceGenerationForm() {
   const router = useRouter();
   const setSenderInfo = useInvoiceStore(state => state.setSenderInfo);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const form = useForm<SenderInfo>({
     resolver: zodResolver(InvoiceGenerationSchema),
@@ -23,6 +24,7 @@ export default function InvoiceGenerationForm() {
       invoiceNumber: 'INV-1234',
       amount: '100',
       description: 'This is a test invoice',
+      invoiceDate: new Date()
     },
   });
 
@@ -64,6 +66,37 @@ export default function InvoiceGenerationForm() {
                 name="invoiceNumber"
                 className="mb-4"
               />
+
+              {/* Date Picker Section */}
+              <View className="mb-4">
+                <Text className="mb-2 text-gray-700">Invoice Date</Text>
+                <Controller
+                  control={form.control}
+                  name="invoiceDate"
+                  render={({ field: { value, onChange } }) => (
+                    <View>
+                      <TouchableOpacity
+                        onPress={() => setShowDatePicker(true)}
+                        className="bg-white border border-gray-300 rounded-md p-3"
+                      >
+                        <Text>{value.toLocaleDateString()}</Text>
+                      </TouchableOpacity>
+
+                      {showDatePicker && (
+                        <DateTimePicker
+                          value={value}
+                          mode="date"
+                          display="calendar"
+                          onChange={(event, selectedDate) => {
+                            setShowDatePicker(false);
+                            onChange(selectedDate || value);
+                          }}
+                        />
+                      )}
+                    </View>
+                  )}
+                />
+              </View>
             </View>
 
             {/* Amount Section */}
