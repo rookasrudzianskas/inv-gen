@@ -44,7 +44,6 @@ const GenerateInvoice = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      {/* Header */}
       <View className="flex-row items-center justify-between px-6 pb-4 pt-8">
         <Text className="text-3xl font-bold text-gray-900">Invoice Manager</Text>
         <TouchableOpacity onPress={() => router.push('/settings')}>
@@ -52,9 +51,7 @@ const GenerateInvoice = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Main Content */}
-      <View className="mt-8 flex-1 px-6">
-        {/* Generate Invoice Card */}
+      <View className="mt-1 flex-1 px-6">
         <TouchableOpacity
           onPress={() => router.push('/invoices/generate')}
           className="shadow-xs mb-6 flex-row items-center rounded-2xl bg-blue-100 p-6">
@@ -67,7 +64,6 @@ const GenerateInvoice = () => {
           </View>
         </TouchableOpacity>
 
-        {/* Recent Invoices Section */}
         <View className="flex-1">
           <Text className="mb-4 text-xl font-bold text-gray-900">Recent Invoices</Text>
 
@@ -90,7 +86,6 @@ const GenerateInvoice = () => {
         </View>
       </View>
 
-      {/* Footer */}
       <View className="flex-row justify-between border-t border-gray-100 px-6 py-4">
         <TouchableOpacity onPress={() => router.push('/')} className="items-center">
           <FileText color="#3B82F6" size={24} />
