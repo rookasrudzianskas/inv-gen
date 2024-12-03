@@ -218,7 +218,7 @@ export const generateInvoicePDF = async () => {
     });
 
     const { uri } = await printToFileAsync({ html });
-    const permanentUri = FileSystem.documentDirectory + 'invoice.pdf';
+    const permanentUri = FileSystem.documentDirectory + `-${invoiceInfo}-invoice.pdf`;
 
     await FileSystem.moveAsync({
       from: uri,
