@@ -7,6 +7,7 @@ export default function Layout() {
     <Stack>
       <Stack.Screen name="invoices/generate" options={{ headerShown: false }} />
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="settings" options={{ headerShown: false }} />
     </Stack>
   );
 }

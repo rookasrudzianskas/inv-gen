@@ -12,7 +12,7 @@ const GenerateInvoice = () => {
       {/* Header */}
       <View className="flex-row items-center justify-between px-6 pb-4 pt-8">
         <Text className="text-3xl font-bold text-gray-900">Invoice Manager</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/settings')}>
           <Settings color="#6B7280" size={24} />
         </TouchableOpacity>
       </View>
@@ -49,15 +49,15 @@ const GenerateInvoice = () => {
 
       {/* Footer */}
       <View className="flex-row justify-between border-t border-gray-100 px-6 py-4">
-        <TouchableOpacity className="items-center">
+        <TouchableOpacity onPress={() => router.push('/')} className="items-center">
           <FileText color="#3B82F6" size={24} />
           <Text className="mt-1 text-xs text-blue-500">Invoices</Text>
         </TouchableOpacity>
-        <TouchableOpacity className="items-center">
+        <TouchableOpacity onPress={() => router.push('/invoices/generate')} className="items-center">
           <PlusCircle color="#6B7280" size={24} />
           <Text className="mt-1 text-xs text-gray-500">New</Text>
         </TouchableOpacity>
-        <TouchableOpacity className="items-center">
+        <TouchableOpacity onPress={() => router.push('/settings')} className="items-center">
           <Settings color="#6B7280" size={24} />
           <Text className="mt-1 text-xs text-gray-500">Settings</Text>
         </TouchableOpacity>
