@@ -21,7 +21,6 @@ export default function InvoiceInfoScreen() {
   const recipientInfo = useInvoiceStore(state => state.recipientInfo);
   const calculateTotal = useInvoiceStore(state => state.calculateTotal);
 
-  // Redirect if previous steps are not completed
   React.useEffect(() => {
     if (!senderInfo || !recipientInfo) {
       router.replace('/invoices/generate');
@@ -40,7 +39,6 @@ export default function InvoiceInfoScreen() {
 
   const onSubmit = (data: InvoiceInfoType) => {
     setInvoiceInfo(data);
-    // Calculate the total before proceeding
     const totals = calculateTotal();
     if (totals) {
       console.log('Invoice Totals:', totals);
