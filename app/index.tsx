@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { PlusCircle, FileText, Settings } from 'lucide-react-native';
 import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import { customEvent } from 'vexo-analytics';
 
 import { useInvoiceStore } from '~/stores/invoice-details';
 
@@ -24,6 +25,14 @@ const GenerateInvoice = () => {
         ]
       : []),
   ];
+
+  const onNewInvoice = () => {
+    customEvent('start-generating-invoice', {
+      'invoice-number': 'NEW INVOICE',
+    });
+
+    router.push('/invoices/generate');
+  };
 
   const InvoiceItem = ({ item }) => (
     <TouchableOpacity
@@ -53,7 +62,7 @@ const GenerateInvoice = () => {
 
       <View className="mt-1 flex-1 px-6">
         <TouchableOpacity
-          onPress={() => router.push('/invoices/generate')}
+          onPress={onNewInvoice}
           className="shadow-xs mb-6 flex-row items-center rounded-2xl bg-blue-100 p-6">
           <View className="mr-4 rounded-full bg-blue-500 p-3">
             <PlusCircle color="white" size={28} />

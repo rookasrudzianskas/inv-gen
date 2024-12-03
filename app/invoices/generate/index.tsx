@@ -17,6 +17,7 @@ import { Button } from '~/components/Button';
 import CustomTextInput from '~/components/custom-text-input';
 import { InvoiceGenerationSchema } from '~/schemas/invoice';
 import { useInvoiceStore } from '~/stores/invoice-details';
+import { customEvent } from 'vexo-analytics'
 
 type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 

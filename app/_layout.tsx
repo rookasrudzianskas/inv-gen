@@ -1,6 +1,14 @@
 import '../global.css';
 
 import { Stack } from 'expo-router';
+import { vexo } from 'vexo-analytics';
+
+if (!__DEV__) {
+  if (!process.env.VEXO_ANALYTICS_API_KEY) {
+    console.error('VEXO_ANALYTICS_API_KEY is not set in .env file');
+  }
+  vexo(process.env.VEXO_ANALYTICS_API_KEY!);
+}
 
 export default function Layout() {
   return (
