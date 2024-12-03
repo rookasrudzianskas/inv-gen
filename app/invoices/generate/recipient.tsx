@@ -6,7 +6,6 @@ import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-na
 import { z } from 'zod';
 
 import { Button } from '~/components/Button';
-import { Container } from '~/components/Container';
 import CustomTextInput from '~/components/custom-text-input';
 import { ClientGenerationSchema } from '~/schemas/invoice';
 import { useInvoiceStore } from '~/stores/invoice-details';
@@ -19,7 +18,6 @@ export default function InvoiceGenerationForm() {
   const recipientInfo = useInvoiceStore((state) => state.recipientInfo);
   const senderInfo = useInvoiceStore((state) => state.senderInfo);
 
-  // Redirect if sender info is not available
   React.useEffect(() => {
     if (!senderInfo) {
       router.replace('/invoices/generate');

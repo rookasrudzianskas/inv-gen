@@ -6,7 +6,6 @@ import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-na
 import { z } from 'zod';
 
 import { Button } from '~/components/Button';
-import { Container } from '~/components/Container';
 import CustomTextInput from '~/components/custom-text-input';
 import { InvoiceGenerationSchema } from '~/schemas/invoice';
 import {useInvoiceStore} from "~/stores/invoice-details";
@@ -16,7 +15,7 @@ type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 export default function InvoiceGenerationForm() {
   const router = useRouter();
   const setSenderInfo = useInvoiceStore(state => state.setSenderInfo);
-  const senderInfo = useInvoiceStore(state => state.senderInfo);
+
   const form = useForm<SenderInfo>({
     resolver: zodResolver(InvoiceGenerationSchema),
     defaultValues: {

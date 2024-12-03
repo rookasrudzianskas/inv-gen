@@ -1,6 +1,11 @@
-import { create } from 'zustand';
 import { z } from 'zod';
-import { InvoiceGenerationSchema, ClientGenerationSchema, InvoiceInfoSchema } from '~/schemas/invoice';
+import { create } from 'zustand';
+
+import {
+  InvoiceGenerationSchema,
+  ClientGenerationSchema,
+  InvoiceInfoSchema,
+} from '~/schemas/invoice';
 
 type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 type RecipientInfo = z.infer<typeof ClientGenerationSchema>;
@@ -112,7 +117,7 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
       subtotal,
       tax,
       discount: discountAmount,
-      total
+      total,
     };
-  }
+  },
 }));

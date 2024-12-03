@@ -11,7 +11,6 @@ export default function InvoicePreviewScreen() {
 
   const totals = calculateTotal();
 
-  // If any required data is missing, show loading or error state
   if (!senderInfo || !recipientInfo || !invoiceInfo || !totals) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
