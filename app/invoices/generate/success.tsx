@@ -23,7 +23,6 @@ export default function InvoiceSuccessScreen() {
 
   const handleShare = async () => {
     try {
-      // Assuming generateInvoicePDF returns the file URI
       const pdfUri = await generateInvoicePDF();
 
       newSuccessEvent();
