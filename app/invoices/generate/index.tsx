@@ -1,20 +1,28 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Stack, Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
-import { View, Text, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import {
+  View,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 import { z } from 'zod';
+
 import { Button } from '~/components/Button';
 import CustomTextInput from '~/components/custom-text-input';
 import { InvoiceGenerationSchema } from '~/schemas/invoice';
-import { useInvoiceStore } from "~/stores/invoice-details";
+import { useInvoiceStore } from '~/stores/invoice-details';
 
 type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 
 export default function InvoiceGenerationForm() {
   const router = useRouter();
-  const setSenderInfo = useInvoiceStore(state => state.setSenderInfo);
+  const setSenderInfo = useInvoiceStore((state) => state.setSenderInfo);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const form = useForm<SenderInfo>({
@@ -24,7 +32,7 @@ export default function InvoiceGenerationForm() {
       invoiceNumber: 'INV-1234',
       amount: '100',
       description: 'This is a test invoice',
-      invoiceDate: new Date()
+      invoiceDate: new Date(),
     },
   });
 
@@ -77,8 +85,7 @@ export default function InvoiceGenerationForm() {
                     <View>
                       <TouchableOpacity
                         onPress={() => setShowDatePicker(true)}
-                        className="bg-white border border-gray-300 rounded-md p-3"
-                      >
+                        className="rounded-md border border-gray-300 bg-white p-3">
                         <Text>{value.toLocaleDateString()}</Text>
                       </TouchableOpacity>
 
