@@ -1,31 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { Stack, Link, useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { FormProvider, useForm, Controller } from 'react-hook-form';
-import {
-  View,
-  Text,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { z } from 'zod';
 
 import { Button } from '~/components/Button';
 import CustomTextInput from '~/components/custom-text-input';
 import { InvoiceGenerationSchema } from '~/schemas/invoice';
 import { useInvoiceStore } from '~/stores/invoice-details';
-import {InvoiceDatePicker} from "~/components/invoice-date-picker";
 
 type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 
 const InvoiceGenerationForm = () => {
   const router = useRouter();
   const setSenderInfo = useInvoiceStore((state) => state.setSenderInfo);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
   const form = useForm<SenderInfo>({
     resolver: zodResolver(InvoiceGenerationSchema),
     defaultValues: {
