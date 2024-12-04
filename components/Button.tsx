@@ -13,7 +13,7 @@ export const Button = forwardRef<View, ButtonProps>(({ title, icon, ...touchable
       {...touchableProps}
       className={`${styles.button} ${touchableProps.className}`}>
       <Text className={styles.buttonText}>{title}</Text>
-      {icon}
+      {icon && <View className="ml-2">{icon}</View>}
     </TouchableOpacity>
   );
 });

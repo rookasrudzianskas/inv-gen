@@ -29,7 +29,7 @@ const SuccessScreen = () => {
 
       await Share.share({
         title: `Invoice ${senderInfo!.invoiceNumber}`,
-        url: pdfUri,
+        url: `${pdfUri}`,
         message: `Invoice for ${recipientInfo!.recipientName} - Total: $${totals!.total.toFixed(2)}`,
       });
     } catch (error) {
@@ -95,19 +95,19 @@ const SuccessScreen = () => {
         <View className="mt-6 flex-row justify-between">
           <Button
             title="Download"
-            icon={<Download color="white" size={20} />}
+            icon={<Download color="white" size={13} />}
             className="w-[30%] flex-row items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-white"
             onPress={generateInvoicePDF}
           />
           <Button
             title="Share"
-            icon={<ShareIcon color="white" size={20} />}
+            icon={<ShareIcon color="white" size={13} />}
             className="w-[30%] flex-row items-center justify-center rounded-md bg-green-600 px-4 py-2 text-white"
             onPress={handleShare}
           />
           <Button
             title="Send"
-            icon={<Send color="white" size={20} />}
+            icon={<Send color="white" size={13} />}
             className="w-[30%] flex-row items-center justify-center rounded-md bg-purple-600 px-4 py-2 text-white"
             onPress={() => {
               /* Implement send functionality */
