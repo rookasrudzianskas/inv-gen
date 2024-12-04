@@ -72,7 +72,6 @@ const InvoiceGenerationForm = () => {
               {/*/>*/}
             </View>
 
-            {/* Amount Section */}
             <View className="mb-4 rounded-lg bg-gray-50 p-4">
               <Text className="mb-4 text-lg font-bold text-gray-800">Invoice Amount</Text>
 
