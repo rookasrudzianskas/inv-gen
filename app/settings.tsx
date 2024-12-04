@@ -43,7 +43,7 @@ const SettingsScreen = () => {
           title="Account"
           subtitle="Manage your profile"
           onPress={() => {
-            /* Navigate to account settings */
+            router.push('/settings/account');
           }}
         />
 

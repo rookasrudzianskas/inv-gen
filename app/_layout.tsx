@@ -39,6 +39,7 @@ const Layout = () => {
       <Stack.Screen name="invoices/generate" options={{ headerShown: false }} />
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="settings" options={{ headerShown: false }} />
+      <Stack.Screen name="settings/account" options={{ headerShown: false }} />
     </Stack>
   );
 };
