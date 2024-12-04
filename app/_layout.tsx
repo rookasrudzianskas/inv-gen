@@ -10,7 +10,7 @@ if (!__DEV__) {
   vexo(process.env.VEXO_ANALYTICS_API_KEY!);
 }
 
-export default function Layout() {
+const Layout = () => {
   return (
     <Stack>
       <Stack.Screen name="invoices/generate" options={{ headerShown: false }} />
@@ -19,3 +19,5 @@ export default function Layout() {
     </Stack>
   );
 }
+
+export default Layout;

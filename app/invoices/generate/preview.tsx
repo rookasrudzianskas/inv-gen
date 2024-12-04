@@ -1,4 +1,4 @@
-import {Stack, useRouter} from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 

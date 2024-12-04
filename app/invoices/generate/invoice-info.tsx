@@ -6,24 +6,33 @@ import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-na
 import { z } from 'zod';
 
 import { Button } from '~/components/Button';
-import { Container } from '~/components/Container';
 import CustomTextInput from '~/components/custom-text-input';
 import { InvoiceInfoSchema } from '~/schemas/invoice';
-import {useInvoiceStore} from "~/stores/invoice-details";
+import { useInvoiceStore } from '~/stores/invoice-details';
 
 type InvoiceInfoType = z.infer<typeof InvoiceInfoSchema>;
 
-export default function InvoiceInfoScreen() {
+const InvoiceInfoScreen = () => {
   const router = useRouter();
-  const setInvoiceInfo = useInvoiceStore(state => state.setInvoiceInfo);
-  const invoiceInfo = useInvoiceStore(state => state.invoiceInfo);
-  const senderInfo = useInvoiceStore(state => state.senderInfo);
-  const recipientInfo = useInvoiceStore(state => state.recipientInfo);
-  const calculateTotal = useInvoiceStore(state => state.calculateTotal);
+  const {
+    setInvoiceInfo,
+    invoiceInfo,
+    senderInfo,
+    recipientInfo,
+    calculateTotal,
+    addInvoice // Add this line
+  } = useInvoiceStore((state) => ({
+    setInvoiceInfo: state.setInvoiceInfo,
+    invoiceInfo: state.invoiceInfo,
+    senderInfo: state.senderInfo,
+    recipientInfo: state.recipientInfo,
+    calculateTotal: state.calculateTotal,
+    addInvoice: state.addInvoice,
+  }));
 
   React.useEffect(() => {
     if (!senderInfo || !recipientInfo) {
-      router.replace('/invoices/generate');
+      router.replace('/invoices/generate/invoice-info');
     }
   }, [senderInfo, recipientInfo]);
 
@@ -40,12 +49,27 @@ export default function InvoiceInfoScreen() {
   const onSubmit = (data: InvoiceInfoType) => {
     setInvoiceInfo(data);
     const totals = calculateTotal();
-    if (totals) {
-      console.log('Invoice Totals:', totals);
+
+    console.log('Sender Info:', senderInfo);
+    console.log('Recipient Info:', recipientInfo);
+    console.log('Invoice Info:', data);
+    console.log('Totals:', totals);
+
+    if (senderInfo && recipientInfo && totals) {
+      const newInvoice = {
+        ...senderInfo,
+        ...recipientInfo,
+        ...data,
+        amount: totals.total.toString(),
+      };
+
+      console.log('Attempting to add invoice:', newInvoice);
+      // @ts-ignore
+      addInvoice(newInvoice);
     }
+
     router.push('/invoices/generate/preview');
   };
-
   return (
     <View className="flex-1 bg-white">
       <Stack.Screen options={{ title: 'Invoice Details' }} />
@@ -54,7 +78,11 @@ export default function InvoiceInfoScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1">
         <FormProvider {...form}>
-          <ScrollView className="p-4" contentContainerStyle={{ paddingBottom: 100 }}>
+          <ScrollView
+            className="p-4"
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100 }}>
             {/* Header */}
             <View className="mb-4 rounded-t-lg bg-blue-100 p-4">
               <Text className="text-2xl font-bold text-blue-800">Additional Details</Text>
@@ -104,15 +132,9 @@ export default function InvoiceInfoScreen() {
             {/* Preview Calculations */}
             <View className="mb-4 rounded-lg bg-blue-50 p-4">
               <Text className="mb-2 text-lg font-bold text-blue-800">Preview Calculations</Text>
-              <Text className="text-gray-600">
-                Amount: ${recipientInfo?.amount || '0'}
-              </Text>
-              <Text className="text-gray-600">
-                Tax Rate: {form.watch('taxRate')}%
-              </Text>
-              <Text className="text-gray-600">
-                Discount: {form.watch('discount')}%
-              </Text>
+              <Text className="text-gray-600">Amount: ${recipientInfo?.amount || '0'}</Text>
+              <Text className="text-gray-600">Tax Rate: {form.watch('taxRate')}%</Text>
+              <Text className="text-gray-600">Discount: {form.watch('discount')}%</Text>
             </View>
 
             {/* Action Buttons */}
@@ -134,4 +156,6 @@ export default function InvoiceInfoScreen() {
       </KeyboardAvoidingView>
     </View>
   );
-}
+};
+
+export default InvoiceInfoScreen;

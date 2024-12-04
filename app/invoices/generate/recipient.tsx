@@ -20,7 +20,7 @@ const InvoiceGenerationForm = () => {
 
   React.useEffect(() => {
     if (!senderInfo) {
-      router.replace('/invoices/generate');
+      router.replace('/invoices/generate/invoice-info');
     }
   }, [senderInfo]);
 
@@ -49,14 +49,17 @@ const InvoiceGenerationForm = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1">
         <FormProvider {...form}>
-          <ScrollView className="p-4" contentContainerStyle={{ paddingBottom: 100 }}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            className="p-4"
+            contentContainerStyle={{ paddingBottom: 100 }}>
             {/* Header */}
             <View className="mb-4 rounded-t-lg bg-blue-100 p-4">
               <Text className="text-2xl font-bold text-blue-800">Recipient Details</Text>
               <Text className="text-gray-600">Enter recipient information below</Text>
             </View>
 
-            {/* Recipient Information Section */}
             <View className="mb-4 rounded-lg bg-gray-50 p-4">
               <Text className="mb-4 text-lg font-bold text-gray-800">Contact Information</Text>
 

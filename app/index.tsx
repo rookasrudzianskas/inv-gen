@@ -4,28 +4,19 @@ import { PlusCircle, FileText, Settings } from 'lucide-react-native';
 import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
 import { customEvent } from 'vexo-analytics';
+import * as ContextMenu from 'zeego/context-menu';
 
 import { useInvoiceStore } from '~/stores/invoice-details';
 
 const GenerateInvoice = () => {
   const router = useRouter();
-  const { senderInfo, recipientInfo } = useInvoiceStore();
-
-  // Combine sender and recipient info to create invoice list
-  const recentInvoices = [
-    ...(senderInfo && recipientInfo
-      ? [
-          {
-            id: Date.now().toString(),
-            invoiceNumber: senderInfo.invoiceNumber,
-            amount: recipientInfo.amount,
-            description: senderInfo.description,
-            date: senderInfo.invoiceDate.toLocaleDateString(),
-          },
-        ]
-      : []),
-  ];
-
+  const { invoices, deleteInvoice } = useInvoiceStore((state) => ({
+    invoices: state.invoices,
+    deleteInvoice: state.deleteInvoice
+  }));
+  const handleDeleteInvoice = (invoiceId: string) => {
+    deleteInvoice(invoiceId);
+  };
   const onNewInvoice = () => {
     customEvent('start-generating-invoice', {
       'invoice-number': 'NEW INVOICE',
@@ -35,20 +26,28 @@ const GenerateInvoice = () => {
   };
 
   const InvoiceItem = ({ item }) => (
-    <TouchableOpacity
-      className="mb-3 flex-row items-center justify-between rounded-xl bg-gray-50 p-4"
-      onPress={() => {
-        /* Navigate to invoice details */
-      }}>
-      <View>
-        <Text className="text-lg font-bold text-gray-900">{item.invoiceNumber}</Text>
-        <Text className="text-gray-600">{item.description}</Text>
-      </View>
-      <View className="items-end">
-        <Text className="font-bold text-blue-600">${item.amount}</Text>
-        <Text className="text-sm text-gray-500">{item.date}</Text>
-      </View>
-    </TouchableOpacity>
+    <ContextMenu.Root>
+      <ContextMenu.Trigger>
+        <TouchableOpacity
+          className="flex-row items-center justify-between border-b border-gray-200 bg-white p-4">
+          <View className="flex-1">
+            <Text className="text-lg font-semibold">{item.invoiceNumber}</Text>
+            <Text className="text-gray-600">{item.description}</Text>
+          </View>
+          <View className="items-end">
+            <Text className="text-lg font-bold text-green-600">${item.amount}</Text>
+            <Text className="text-gray-500">{item.date}</Text>
+          </View>
+        </TouchableOpacity>
+      </ContextMenu.Trigger>
+
+      <ContextMenu.Content>
+        <ContextMenu.Item key="delete" onSelect={() => handleDeleteInvoice(item.id)}>
+          <ContextMenu.ItemTitle>Delete Invoice</ContextMenu.ItemTitle>
+          <ContextMenu.ItemIcon name="trash" />
+        </ContextMenu.Item>
+      </ContextMenu.Content>
+    </ContextMenu.Root>
   );
 
   return (
@@ -76,9 +75,9 @@ const GenerateInvoice = () => {
         <View className="flex-1">
           <Text className="mb-4 text-xl font-bold text-gray-900">Recent Invoices</Text>
 
-          {recentInvoices.length > 0 ? (
+          {invoices.length > 0 ? (
             <FlatList
-              data={recentInvoices}
+              data={invoices}
               renderItem={InvoiceItem}
               keyExtractor={(item) => item.id}
               showsVerticalScrollIndicator={false}

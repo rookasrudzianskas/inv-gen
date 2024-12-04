@@ -17,11 +17,10 @@ import { Button } from '~/components/Button';
 import CustomTextInput from '~/components/custom-text-input';
 import { InvoiceGenerationSchema } from '~/schemas/invoice';
 import { useInvoiceStore } from '~/stores/invoice-details';
-import { customEvent } from 'vexo-analytics'
 
 type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 
-export default function InvoiceGenerationForm() {
+const InvoiceGenerationForm = () => {
   const router = useRouter();
   const setSenderInfo = useInvoiceStore((state) => state.setSenderInfo);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -51,7 +50,11 @@ export default function InvoiceGenerationForm() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1">
         <FormProvider {...form}>
-          <ScrollView className="p-4" contentContainerStyle={{ paddingBottom: 100 }}>
+          <ScrollView
+            className="p-4"
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100 }}>
             {/* Header */}
             <View className="mb-4 rounded-t-lg bg-blue-100 p-4">
               <Text className="text-2xl font-bold text-blue-800">New Invoice</Text>
@@ -152,4 +155,6 @@ export default function InvoiceGenerationForm() {
       </KeyboardAvoidingView>
     </View>
   );
-}
+};
+
+export default InvoiceGenerationForm;

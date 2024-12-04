@@ -1,15 +1,19 @@
-import { z } from 'zod';
-import { create } from 'zustand';
+import {Omit} from 'yargs';
+import {z} from 'zod';
+import {create} from 'zustand';
 
-import {
-  InvoiceGenerationSchema,
-  ClientGenerationSchema,
-  InvoiceInfoSchema,
-} from '~/schemas/invoice';
+import {ClientGenerationSchema, InvoiceGenerationSchema, InvoiceInfoSchema,} from '~/schemas/invoice';
 
 type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 type RecipientInfo = z.infer<typeof ClientGenerationSchema>;
 type InvoiceInfo = z.infer<typeof InvoiceInfoSchema>;
+
+type Invoice = SenderInfo &
+  RecipientInfo &
+  InvoiceInfo & {
+    id: string;
+    createdAt: Date;
+  };
 
 interface InvoiceStore {
   // State
@@ -36,15 +40,17 @@ interface InvoiceStore {
     discount: number;
     total: number;
   } | null;
+
+  invoices: Invoice[];
+  addInvoice: (invoice: Omit<Invoice, 'id' | 'createdAt'>) => void;
+  deleteInvoice: (invoiceId: string) => void;
 }
 
 export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
-  // Initial state
   senderInfo: null,
   recipientInfo: null,
   invoiceInfo: null,
 
-  // Actions
   setSenderInfo: (info: SenderInfo) => {
     set({ senderInfo: info });
   },
@@ -59,6 +65,35 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
 
   clearInvoiceData: () => {
     set({ senderInfo: null, recipientInfo: null, invoiceInfo: null });
+  },
+
+  invoices: [],
+
+  addInvoice: (invoiceData) => {
+    const newInvoice: Invoice = {
+      ...invoiceData,
+      id: `INV-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+      createdAt: new Date(),
+    };
+
+    set((state) => {
+      const isDuplicate = state.invoices.some(invoice => invoice.id === newInvoice.id);
+
+      return {
+        invoices: isDuplicate
+          ? state.invoices
+          : [...state.invoices, newInvoice]
+      };
+    });
+  },
+
+  deleteInvoice: (invoiceId) => {
+    set((state) => {
+      const updatedInvoices = state.invoices.filter((invoice) => {
+        return invoice.id !== invoiceId;
+      });
+      return { invoices: updatedInvoices };
+    });
   },
 
   // Computed values
