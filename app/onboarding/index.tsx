@@ -1,8 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { FileText, CreditCard, Bell } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width } = Dimensions.get('window');
 
@@ -30,7 +30,7 @@ const OnboardingScreen = () => {
 
   const handleNext = async () => {
     if (currentStep < onboardingSteps.length - 1) {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     } else {
       await AsyncStorage.setItem('hasSeenOnboarding', 'true');
       router.push('/');
