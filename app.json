@@ -15,8 +15,8 @@
       [
         "@sentry/react-native/expo",
         {
-          "organization": "sentry org slug, or use the `SENTRY_ORG` environment variable",
-          "project": "sentry project name, or use the `SENTRY_PROJECT` environment variable",
+          "organization": "nothing-q5c",
+          "project": "react-native",
           "url": "https://sentry.io/"
         }
       ]
@@ -46,6 +46,14 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.rooookas.INVOICE_GENERATOR"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "39c463e6-c6bd-44cb-a6d6-4019f06b0f45"
+      }
     }
   }
 }
