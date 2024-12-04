@@ -1,8 +1,10 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { useInvoiceStore } from './invoiceStore';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
 import { z } from 'zod';
+import { create } from 'zustand';
+
+import { InvoiceInfoSchema } from '~/schemas/invoice';
 
 interface InvoiceStore {
   invoiceDate: Date | null;
@@ -20,10 +22,10 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
     const { invoiceInfo, invoiceDate } = get();
     if (!invoiceInfo || !invoiceDate) return false;
     try {
-      z.date().refine(
-        date => date <= new Date(),
-        { message: 'Invoice date cannot be in the future' }
-      ).parse(invoiceDate);
+      // Validate invoice date separately
+      z.date()
+        .refine((date) => date <= new Date(), { message: 'Invoice date cannot be in the future' })
+        .parse(invoiceDate);
 
       return InvoiceInfoSchema.parse(invoiceInfo) !== null;
     } catch (error) {
@@ -32,40 +34,56 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
   },
 }));
 
-interface InvoiceDatePickerProps {
-  className?: string;
-}
-
-export const InvoiceDatePicker: React.FC<InvoiceDatePickerProps> = ({ className }) => {
+export const InvoiceDatePicker: React.FC = () => {
   const { invoiceDate, setInvoiceDate } = useInvoiceStore();
-  const [isOpen, setIsOpen] = useState(false);
+  const [show, setShow] = useState(false);
 
-  const handleDateChange = (date: Date) => {
-    setInvoiceDate(date);
-    setIsOpen(false);
+  const onChange = (event: any, selectedDate?: Date) => {
+    const currentDate = selectedDate || invoiceDate;
+    setShow(Platform.OS === 'ios'); // On iOS, keep the picker open
+    setInvoiceDate(currentDate);
+  };
+
+  const showDatepicker = () => {
+    setShow(true);
   };
 
   return (
-    <div className="relative">
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className={`w-full text-left ${className}`}
-      >
-        {invoiceDate ? invoiceDate.toLocaleDateString() : 'Select Invoice Date'}
-      </button>
+    <View>
+      <TouchableOpacity onPress={showDatepicker}>
+        <View style={styles.dateContainer}>
+          <Text style={styles.dateText}>
+            {invoiceDate ? invoiceDate.toLocaleDateString() : 'Select Invoice Date'}
+          </Text>
+        </View>
+      </TouchableOpacity>
 
-      {isOpen && (
-        <div className="absolute z-50 mt-1">
-          <DatePicker
-            selected={invoiceDate}
-            onChange={handleDateChange}
-            inline
-            maxDate={new Date()}
-            onClickOutside={() => setIsOpen(false)}
-          />
-        </div>
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={invoiceDate || new Date()}
+          mode="date"
+          is24Hour
+          display="default"
+          onChange={onChange}
+          maximumDate={new Date()}
+        />
       )}
-    </div>
+    </View>
   );
 };
+
+const styles = {
+  dateContainer: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: 'white',
+  },
+  dateText: {
+    color: invoiceDate ? 'black' : '#888',
+  },
+};
+
+export default InvoiceDatePicker;

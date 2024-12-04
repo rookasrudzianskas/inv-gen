@@ -17,6 +17,7 @@ import { Button } from '~/components/Button';
 import CustomTextInput from '~/components/custom-text-input';
 import { InvoiceGenerationSchema } from '~/schemas/invoice';
 import { useInvoiceStore } from '~/stores/invoice-details';
+import {InvoiceDatePicker} from "~/components/invoice-date-picker";
 
 type SenderInfo = z.infer<typeof InvoiceGenerationSchema>;
 
@@ -77,34 +78,9 @@ const InvoiceGenerationForm = () => {
                 className="mb-4"
               />
 
-              <View className="mb-4">
-                <Text className="mb-2 text-gray-700">Invoice Date</Text>
-                <Controller
-                  control={form.control}
-                  name="invoiceDate"
-                  render={({ field: { value, onChange } }) => (
-                    <View>
-                      <TouchableOpacity
-                        onPress={() => setShowDatePicker(true)}
-                        className="rounded-md border border-gray-300 bg-white p-3">
-                        <Text>{value.toLocaleDateString()}</Text>
-                      </TouchableOpacity>
-
-                      {showDatePicker && (
-                        <DateTimePicker
-                          value={value}
-                          mode="date"
-                          display="calendar"
-                          onChange={(event, selectedDate) => {
-                            setShowDatePicker(false);
-                            onChange(selectedDate || value);
-                          }}
-                        />
-                      )}
-                    </View>
-                  )}
-                />
-              </View>
+              {/*<InvoiceDatePicker*/}
+              {/*  className="rounded-md border border-gray-300 bg-white p-3"*/}
+              {/*/>*/}
             </View>
 
             {/* Amount Section */}
