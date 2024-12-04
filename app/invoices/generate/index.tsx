@@ -55,13 +55,11 @@ const InvoiceGenerationForm = () => {
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 100 }}>
-            {/* Header */}
             <View className="mb-4 rounded-t-lg bg-blue-100 p-4">
               <Text className="text-2xl font-bold text-blue-800">New Invoice</Text>
               <Text className="text-gray-600">Enter invoice details below</Text>
             </View>
 
-            {/* Form Section */}
             <View className="mb-4 rounded-lg bg-gray-50 p-4">
               <Text className="mb-4 text-lg font-bold text-gray-800">Sender Information</Text>
 
@@ -79,7 +77,6 @@ const InvoiceGenerationForm = () => {
                 className="mb-4"
               />
 
-              {/* Date Picker Section */}
               <View className="mb-4">
                 <Text className="mb-2 text-gray-700">Invoice Date</Text>
                 <Controller
