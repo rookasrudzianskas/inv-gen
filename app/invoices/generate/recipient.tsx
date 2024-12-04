@@ -12,7 +12,7 @@ import { useInvoiceStore } from '~/stores/invoice-details';
 
 type RecipientInfo = z.infer<typeof ClientGenerationSchema>;
 
-export default function InvoiceGenerationForm() {
+const InvoiceGenerationForm = () => {
   const router = useRouter();
   const setRecipientInfo = useInvoiceStore((state) => state.setRecipientInfo);
   const recipientInfo = useInvoiceStore((state) => state.recipientInfo);
@@ -131,4 +131,6 @@ export default function InvoiceGenerationForm() {
       </KeyboardAvoidingView>
     </View>
   );
-}
+};
+
+export default InvoiceGenerationForm;

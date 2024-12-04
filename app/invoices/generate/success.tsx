@@ -8,7 +8,7 @@ import { Button } from '~/components/Button';
 import { useInvoiceStore } from '~/stores/invoice-details';
 import { generateInvoicePDF } from '~/utils/pdf';
 
-export default function InvoiceSuccessScreen() {
+const SuccessScreen = () => {
   const router = useRouter();
   const { senderInfo, recipientInfo, invoiceInfo, calculateTotal } = useInvoiceStore();
   const totals = calculateTotal();
@@ -87,7 +87,7 @@ export default function InvoiceSuccessScreen() {
           </View>
           <View className="mb-2 flex-row justify-between">
             <Text className="font-bold">Total:</Text>
-            <Text className="font-bold">${totals.total.toFixed(2)}</Text>
+            <Text className="font-bold">${totals?.total.toFixed(2)}</Text>
           </View>
         </View>
 
@@ -117,4 +117,6 @@ export default function InvoiceSuccessScreen() {
       </ScrollView>
     </View>
   );
-}
+};
+
+export default SuccessScreen;

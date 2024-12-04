@@ -3,15 +3,17 @@ import { Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-nativ
 
 type ButtonProps = {
   title: string;
+  icon?: React.ReactNode;
 } & TouchableOpacityProps;
 
-export const Button = forwardRef<View, ButtonProps>(({ title, ...touchableProps }, ref) => {
+export const Button = forwardRef<View, ButtonProps>(({ title, icon, ...touchableProps }, ref) => {
   return (
     <TouchableOpacity
       ref={ref}
       {...touchableProps}
       className={`${styles.button} ${touchableProps.className}`}>
       <Text className={styles.buttonText}>{title}</Text>
+      {icon}
     </TouchableOpacity>
   );
 });
