@@ -33,7 +33,6 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
     }
   },
 }));
-
 export const InvoiceDatePicker: React.FC = () => {
   const { invoiceDate, setInvoiceDate } = useInvoiceStore();
   const [show, setShow] = useState(false);
