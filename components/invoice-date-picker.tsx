@@ -21,6 +21,7 @@ export const useInvoiceStore = create<InvoiceStore>((set, get) => ({
   isValidInvoiceInfo: () => {
     const { invoiceInfo, invoiceDate } = get();
     if (!invoiceInfo || !invoiceDate) return false;
+
     try {
       z.date()
         .refine((date) => date <= new Date(), { message: 'Invoice date cannot be in the future' })
