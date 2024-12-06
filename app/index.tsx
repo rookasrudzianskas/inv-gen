@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { useRouter } from 'expo-router';
-import { PlusCircle, FileText, Settings } from 'lucide-react-native';
+import {PlusCircle, FileText, Settings, User} from 'lucide-react-native';
 import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
 import { customEvent } from 'vexo-analytics';
@@ -104,6 +104,10 @@ const GenerateInvoice = () => {
           className="items-center">
           <PlusCircle color="#6B7280" size={24} />
           <Text className="mt-1 text-xs text-gray-500">New</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/contacts-list')} className="items-center">
+          <User color="#6B7280" size={24} />
+          <Text className="mt-1 text-xs text-gray-500">Contacts List</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/settings')} className="items-center">
           <Settings color="#6B7280" size={24} />
